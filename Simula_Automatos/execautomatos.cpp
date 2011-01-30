@@ -132,8 +132,9 @@ execautomatos::execautomatos (QWidget* parent, Qt::WFlags f, automato& au) : QDi
     this->txtDadosSaida->setFont (QFont ("Courier New"));
     this->txtDadosSaida->hide();
 
-    this->thexaut = new threadexecutaautomato (this, this->txtDadosEntrada, this->txtDadosSaida, this->pbarProgresso, this->mutex, this->aut, this->opcao);
+    this->thexaut = new threadexecutaautomato (this, this->aut, this->opcao);
     QObject::connect (this->thexaut, SIGNAL(finished()), this, SLOT(threadexecutaautomato_finished()));
+    QObject::connect (this->thexaut, SIGNAL(setProgressValue(int)), this->pbarProgresso, SLOT(setValue(int)));
 }
 
 void execautomatos::radOpt0_toggled (bool ok) {
@@ -223,9 +224,7 @@ void execautomatos::resizeEvent (QResizeEvent*) {
     } else if (this->passo == 3 || this->passo == 4 || this->passo == 5) {
         // Tela de progresso
         aux = (h - 3 * ESPACO - btns_h) / 2 + ESPACO;
-        this->mutex.lock();
         this->pbarProgresso->move ((w - this->pbarProgresso->width()) / 2, aux + ESPACO / 2);
-        this->mutex.unlock();
         this->lblProgresso->move ((w - this->lblProgresso->width()) / 2, aux - ESPACO / 2 - this->lblProgresso->height());
     } else if (this->passo == 6) {
         // Tela para mostrar os dados de saida
@@ -318,7 +317,10 @@ void execautomatos::btnAvancar_clicked (bool) {
         this->lblProgresso->show();
         this->btnAvancar->setText ("Interromper");
         this->btnAvancar->adjustSize();
-        this->pbarProgresso->setValue (this->pbarProgresso->minimum());
+        this->pbarProgresso->setMinimum (0);
+        this->thexaut->txtEntrada = this->txtDadosEntrada->toPlainText().toAscii();
+        this->pbarProgresso->setMaximum (this->thexaut->txtEntrada.count() - 1);
+        this->pbarProgresso->setValue (0);
         this->resizeEvent (NULL);
         this->thexaut->start ();
     } else if (this->passo == 3) {
@@ -434,38 +436,25 @@ void execautomatos::threadexecutaautomato_finished () {
 
 int threadexecutaautomato::contagem = 0;
 
-threadexecutaautomato::threadexecutaautomato (QObject* parent, QTextEdit* caixaEntrada, QTextEdit* caixaSaida, QProgressBar* barra, QMutex& mutex, automato* aut, int& opcao) : QThread (parent) {
-    this->caixaEntrada = caixaEntrada;
-    this->caixaSaida = caixaSaida;
-    this->barra = barra;
-    this->mutex = &mutex;
+threadexecutaautomato::threadexecutaautomato (QObject* parent, automato* aut, int& opcao) : QThread (parent) {
     this->aut = aut;
     this->opcao = &opcao;
 }
 
 void threadexecutaautomato::paraProcessamento () {
     this->continuar = false;
+    this->wait ();
 }
 
 void threadexecutaautomato::run () {
     int i, len, pos, parm, ii, reco, noreco, palvaz, tot;
-    QByteArray txt;
     QString palavra, sapar1, sapar2, pal2;
     QChar carac;
     char ch;
     Q_ASSERT (this->contagem++ < 1);
-    Q_ASSERT (this->barra != NULL);
-    Q_ASSERT (this->caixaEntrada != NULL);
-    Q_ASSERT (this->caixaSaida != NULL);
-    Q_ASSERT (this->mutex != NULL);
     Q_ASSERT (this->aut != NULL);
     this->continuar = true;
-    this->mutex->lock();
-    this->barra->setMinimum (0);
-    txt = this->caixaEntrada->toPlainText().toAscii();
-    len = txt.count();
-    this->barra->setMaximum (len - 1);
-    this->mutex->unlock();
+    len = this->txtEntrada.count();
     pos = 0;
     this->txtSaida = "";
     sapar1 = "";
@@ -476,12 +465,10 @@ void threadexecutaautomato::run () {
     palvaz = 0;
     for (i = ii = 0; i < len && this->continuar; i++, ii++) {
         if (ii >= parm) {
-            this->mutex->lock();
-            this->barra->setValue(i);
-            this->mutex->unlock();
+            emit setProgressValue (i);
             ii = 0;
         }
-        ch = txt[i];
+        ch = this->txtEntrada[i];
         carac = ch;
         if (carac.isSpace()) {
             if (palavra == "") {
@@ -532,8 +519,6 @@ void threadexecutaautomato::run () {
         this->txtSaida += QString::number (reco) + " palavras [" + QString::number (reco * 100 / tot) + "%] foram aceitas pelo automato.\n";
         this->txtSaida += QString::number (noreco) + " palavras [" + QString::number (100 - (reco * 100 / tot)) + "%] foram rejeitadas pelo automato.\n";
     }
-    this->mutex->lock();
-    this->barra->setValue(i);
-    this->mutex->unlock();
+    emit setProgressValue (i);
     this->contagem--;
 }

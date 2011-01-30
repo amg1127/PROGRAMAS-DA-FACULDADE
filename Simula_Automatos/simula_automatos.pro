@@ -6,8 +6,8 @@ TEMPLATE = app
 TARGET += 
 DEPENDPATH += .
 INCLUDEPATH += .
-# CONFIG += debug warn_on
-CONFIG += release warn_on
+CONFIG += debug warn_on
+# CONFIG += release warn_on
 
 # Input
 HEADERS += automato.h common.h editautomato.h segmreta.h execautomatos.h

@@ -65,7 +65,6 @@ class execautomatos : public QDialog {
         QRadioButton* radOpt4;
         QButtonGroup* bgrpOpts;
         automato* aut;
-        QMutex mutex;
         int opcao;
         threadexecutaautomato* thexaut;
         bool querFechar;
@@ -94,16 +93,15 @@ class threadexecutaautomato : public QThread {
         void run ();
         bool continuar;
         static int contagem;
-        QTextEdit* caixaEntrada;
-        QTextEdit* caixaSaida;
-        QProgressBar* barra;
-        QMutex* mutex;
         automato* aut;
         int* opcao;
     public:
         void paraProcessamento ();
         QString txtSaida;
-        threadexecutaautomato (QObject*, QTextEdit*, QTextEdit*, QProgressBar*, QMutex&, automato*, int&);
+        QByteArray txtEntrada;
+        threadexecutaautomato (QObject*, automato*, int&);
+    signals:
+        void setProgressValue (int);
 };
 
 template <typename T> T execautomatos::maior (T el1, T el2) {
