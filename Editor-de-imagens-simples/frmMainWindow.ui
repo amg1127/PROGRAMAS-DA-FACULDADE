@@ -1,0 +1,227 @@
+<ui version="4.0" >
+ <class>frmMainWindow</class>
+ <widget class="QMainWindow" name="frmMainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>710</width>
+    <height>462</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Simple Image Editor</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="icons.qrc" >:/image.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget" />
+  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QToolBar" name="toolBar" >
+   <property name="windowTitle" >
+    <string>toolBar</string>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+   <addaction name="action_New" />
+   <addaction name="action_Open" />
+   <addaction name="action_Save_As" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="action_Pen" />
+   <addaction name="action_Line" />
+   <addaction name="action_Rectangle" />
+   <addaction name="action_Circle" />
+   <addaction name="action_Spray" />
+   <addaction name="action_Fill" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="action_Resize_Image" />
+   <addaction name="action_Choose_Active_Color" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="separator" />
+   <addaction name="action_Show_Color" />
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>710</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_New" />
+    <addaction name="action_Open" />
+    <addaction name="action_Save_As" />
+    <addaction name="separator" />
+    <addaction name="action_Quit" />
+   </widget>
+   <widget class="QMenu" name="menuHelp" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About" />
+    <addaction name="action_About_Qt" />
+   </widget>
+   <widget class="QMenu" name="menuTools" >
+    <property name="title" >
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="action_Pen" />
+    <addaction name="action_Line" />
+    <addaction name="action_Rectangle" />
+    <addaction name="action_Circle" />
+    <addaction name="action_Spray" />
+    <addaction name="action_Fill" />
+    <addaction name="separator" />
+    <addaction name="action_Resize_Image" />
+    <addaction name="action_Choose_Active_Color" />
+   </widget>
+   <addaction name="menuFile" />
+   <addaction name="menuTools" />
+   <addaction name="menuHelp" />
+  </widget>
+  <action name="action_New" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/filenew.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;New...</string>
+   </property>
+  </action>
+  <action name="action_Open" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/fileopen.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Open...</string>
+   </property>
+  </action>
+  <action name="action_Save_As" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/filesave.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Save as...</string>
+   </property>
+  </action>
+  <action name="action_Quit" >
+   <property name="text" >
+    <string>&amp;Quit</string>
+   </property>
+  </action>
+  <action name="action_Pen" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_pen.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Pen</string>
+   </property>
+  </action>
+  <action name="action_About" >
+   <property name="text" >
+    <string>&amp;About...</string>
+   </property>
+  </action>
+  <action name="action_About_Qt" >
+   <property name="text" >
+    <string>About &amp;QT...</string>
+   </property>
+  </action>
+  <action name="action_Line" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_line.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Line</string>
+   </property>
+  </action>
+  <action name="action_Rectangle" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_rectangle.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Rectangle</string>
+   </property>
+  </action>
+  <action name="action_Circle" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_ellipse.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Circle</string>
+   </property>
+  </action>
+  <action name="action_Spray" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_spraycan.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Spray</string>
+   </property>
+  </action>
+  <action name="action_Fill" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_flood_fill.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Fill</string>
+   </property>
+  </action>
+  <action name="action_Resize_Image" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/resize.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Resi&amp;ze image area...</string>
+   </property>
+  </action>
+  <action name="action_Choose_Active_Color" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/tool_choose_color.png</iconset>
+   </property>
+   <property name="text" >
+    <string>C&amp;hoose active color...</string>
+   </property>
+  </action>
+  <action name="action_Show_Color" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="icons.qrc" />
+ </resources>
+ <connections/>
+</ui>

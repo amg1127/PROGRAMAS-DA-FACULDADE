@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>filenew.png</file>
+        <file>fileopen.png</file>
+        <file>filesave.png</file>
+        <file>image.png</file>
+        <file>resize.png</file>
+        <file>tool_choose_color.png</file>
+        <file>tool_ellipse.png</file>
+        <file>tool_flood_fill.png</file>
+        <file>tool_line.png</file>
+        <file>tool_pen.png</file>
+        <file>tool_rectangle.png</file>
+        <file>tool_spraycan.png</file>
+    </qresource>
+</RCC>
