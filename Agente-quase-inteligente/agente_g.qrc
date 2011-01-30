@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>boneco.png</file>
+        <file>estado-final.png</file>
+        <file>muro.png</file>
+        <file>pensando-claro.png</file>
+        <file>pensando-escuro.png</file>
+        <file>seta-baixo.png</file>
+        <file>seta-cima.png</file>
+        <file>seta-direita.png</file>
+        <file>seta-esquerda.png</file>
+        <file>vazio.png</file>
+    </qresource>
+</RCC>

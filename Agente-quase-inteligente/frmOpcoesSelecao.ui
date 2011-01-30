@@ -1,0 +1,1257 @@
+<ui version="4.0" >
+ <class>frmOpcoesSelecao</class>
+ <widget class="QWidget" name="frmOpcoesSelecao" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>590</width>
+    <height>514</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="grpNorte" >
+       <property name="title" >
+        <string>Probabilidades da ação NORTE (T)</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblNorteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação NORTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Norte</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbNorteNorte</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbNorteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação NORTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="leftMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblNorteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação NORTE.</string>
+            </property>
+            <property name="text" >
+             <string>O&amp;este </string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbNorteOeste</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbNorteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação NORTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLabel" name="lblFiguraNorte" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="pixmap" >
+           <pixmap resource="agente_g.qrc" >:/seta-cima.png</pixmap>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbNorteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação NORTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblNorteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação NORTE.</string>
+            </property>
+            <property name="text" >
+             <string> &amp;Leste</string>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbNorteLeste</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbNorteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação NORTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblNorteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação NORTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Sul</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbNorteSul</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>10</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="grpLeste" >
+       <property name="title" >
+        <string>Probabilidades da ação LESTE (T)</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblLesteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação LESTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Norte</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbLesteNorte</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbLesteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação LESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="leftMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblLesteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação LESTE.</string>
+            </property>
+            <property name="text" >
+             <string>O&amp;este </string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbLesteOeste</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbLesteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação LESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLabel" name="lblFiguraLeste" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="pixmap" >
+           <pixmap resource="agente_g.qrc" >:/seta-direita.png</pixmap>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbLesteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação LESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblLesteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação LESTE.</string>
+            </property>
+            <property name="text" >
+             <string> &amp;Leste</string>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbLesteLeste</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbLesteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação LESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblLesteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação LESTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Sul</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbLesteSul</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="grpOeste" >
+       <property name="title" >
+        <string>Probabilidades da ação OESTE (T)</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblOesteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação OESTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Norte</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbOesteNorte</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbOesteNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação OESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="leftMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblOesteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação OESTE.</string>
+            </property>
+            <property name="autoFillBackground" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>O&amp;este </string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbOesteOeste</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbOesteOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação OESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLabel" name="lblFiguraOeste" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="pixmap" >
+           <pixmap resource="agente_g.qrc" >:/seta-esquerda.png</pixmap>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbOesteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação OESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblOesteLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação OESTE.</string>
+            </property>
+            <property name="text" >
+             <string> &amp;Leste</string>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbOesteLeste</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbOesteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação OESTE.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblOesteSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação OESTE.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Sul</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbOesteSul</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>10</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="grpSul" >
+       <property name="title" >
+        <string>Probabilidades da ação SUL (T)</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblSulNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação SUL.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Norte</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbSulNorte</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbSulNorte" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o norte ao disparar a ação SUL.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="leftMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblSulOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação SUL.</string>
+            </property>
+            <property name="text" >
+             <string>O&amp;este </string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbSulOeste</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbSulOeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o oeste ao disparar a ação SUL.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLabel" name="lblFiguraSul" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="pixmap" >
+           <pixmap resource="agente_g.qrc" >:/seta-baixo.png</pixmap>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" >
+         <layout class="QHBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbSulLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação SUL.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblSulLeste" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o leste ao disparar a ação SUL.</string>
+            </property>
+            <property name="text" >
+             <string> &amp;Leste</string>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbSulLeste</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="1" >
+         <layout class="QVBoxLayout" >
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QDoubleSpinBox" name="dspbSulSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação SUL.</string>
+            </property>
+            <property name="decimals" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>0.010000000000000</double>
+            </property>
+            <property name="value" >
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblSulSul" >
+            <property name="toolTip" >
+             <string>Probabilidade de o agente ir para o sul ao disparar a ação SUL.</string>
+            </property>
+            <property name="text" >
+             <string>&amp;Sul</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
+            <property name="buddy" >
+             <cstring>dspbSulSul</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblRecompensa" >
+       <property name="toolTip" >
+        <string>Valor de recompensa da seleção</string>
+       </property>
+       <property name="text" >
+        <string>Valor de recompensa da seleção (&amp;R):</string>
+       </property>
+       <property name="buddy" >
+        <cstring>dspbRecompensa</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="dspbRecompensa" >
+       <property name="toolTip" >
+        <string>Valor de recompensa da seleção</string>
+       </property>
+       <property name="decimals" >
+        <number>7</number>
+       </property>
+       <property name="minimum" >
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum" >
+        <double>100.000000000000000</double>
+       </property>
+       <property name="singleStep" >
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnOk" >
+       <property name="toolTip" >
+        <string>Clique para salvar as configurações para a seleção.</string>
+       </property>
+       <property name="text" >
+        <string>&amp;OK</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancelar" >
+       <property name="toolTip" >
+        <string>Clique para fechar a janela sem modificar qualquer configuração.</string>
+       </property>
+       <property name="text" >
+        <string>&amp;Cancelar</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>false</bool>
+       </property>
+       <property name="default" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>dspbNorteNorte</tabstop>
+  <tabstop>dspbNorteOeste</tabstop>
+  <tabstop>dspbNorteLeste</tabstop>
+  <tabstop>dspbNorteSul</tabstop>
+  <tabstop>dspbLesteNorte</tabstop>
+  <tabstop>dspbLesteOeste</tabstop>
+  <tabstop>dspbLesteLeste</tabstop>
+  <tabstop>dspbLesteSul</tabstop>
+  <tabstop>dspbOesteNorte</tabstop>
+  <tabstop>dspbOesteOeste</tabstop>
+  <tabstop>dspbOesteLeste</tabstop>
+  <tabstop>dspbOesteSul</tabstop>
+  <tabstop>dspbSulNorte</tabstop>
+  <tabstop>dspbSulOeste</tabstop>
+  <tabstop>dspbSulLeste</tabstop>
+  <tabstop>dspbSulSul</tabstop>
+  <tabstop>dspbRecompensa</tabstop>
+  <tabstop>btnOk</tabstop>
+  <tabstop>btnCancelar</tabstop>
+ </tabstops>
+ <resources>
+  <include location="agente_g.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>btnCancelar</sender>
+   <signal>clicked()</signal>
+   <receiver>frmOpcoesSelecao</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>326</x>
+     <y>326</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>354</x>
+     <y>396</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
