@@ -1,0 +1,31 @@
+Implementação para passagem de comandos entre clientes e o servidor:
+A => Envia o comando
+B => Recebe o comando
+
+CO => indica o nome de um comando
+PA => indica um parâmetro para o comando (que pode ser em branco, sob certas circunstâncias)
+EX => indica o fim dos parâmetros
+OK => indica que o destinatário aceitou a mensagem (mas não quer dizer que o destinatário aceitou o comando)
+
+A envia:    CO (nome do comando)
+B envia:    OK
+A envia:    PA parâmetro 1
+B envia:    OK
+A envia:    PA parâmetro 2
+B envia:    OK
+    (um monte de parâmetros)
+A envia:    PA parâmetro n
+B envia:    OK
+A envia:    EX
+    (B vai executar o comando com os parâmetros passados)
+
+B envia:    PA parâmetro 1
+A envia:    OK
+B envia:    PA parâmetro 2
+A envia:    OK
+    (um monte de parâmetros)
+B envia:    PA parâmetro n
+A envia:    OK
+B envia:    EX
+    OBS: Se o B tiver um outro comando para enviar, será enviado CO ao invés de EX
+
