@@ -1,0 +1,824 @@
+#include "common.h"
+
+#define ESCREVEINT(stream,dado) { \
+    stream << char((unsigned(dado) & 0xff000000) >> 24); \
+    stream << char((unsigned(dado) & 0x00ff0000) >> 16); \
+    stream << char((unsigned(dado) & 0x0000ff00) >> 8 ); \
+    stream << char((unsigned(dado) & 0x000000ff) >> 0 ); }
+
+int main (int argc, char **argv) {
+    int num_desloca, tam_arq, *probabs, i, l, quants;
+    char dado, leit;
+    bool avisa_null = true;
+    std::string difer;
+    dado = 0;
+    num_desloca = 0;
+    if (argc < 3) {
+        std::cerr << "Uso: " << argv[0] << " <infile> <outfile>" << std::endl;
+        return (1);
+    }
+    std::fstream entrada (argv[1], std::ios_base::in | std::ios_base::binary);
+    if (entrada.fail()) {
+        std::cerr << " ** Erro: nao pude abrir o arquivo de entrada! **" << std::endl;
+        return (1);
+    }
+    // Ah... Ate poderia fazer em tudo em 2 passadas... Mas agora, estou com preguica. Vou fazer com 3 passadas.
+    std::cout << "Etapa 1: localizando caracteres diferentes no arquivo..." << std::endl;
+    difer = "";
+    tam_arq = 0;
+    while (1) {
+        leit = entrada.get();
+        if (entrada.eof()) break;
+        if (leit == 0) {
+            if (avisa_null) {
+                avisa_null = false;
+                std::cerr << " ** Aviso: o algoritmo nao foi preparado para codificar o caractere '\0' presente no arquivo. Ele sera ignorado. **" << std::endl;
+            }
+        } else {
+            if (difer.find (leit) == std::string::npos)
+                difer += leit;
+            tam_arq++;
+            if (tam_arq < 0) {
+                tam_arq--;
+                std::cerr << " ** Aviso: o tamanho maximo do arquivo eh de 2GB. Ele sera truncado. **" << std::endl;
+                break;
+            }
+        }
+    }
+    if (! tam_arq) {
+        std::cerr << " ** Erro: o arquivo eh vazio... Nada a fazer. **" << std::endl;
+        return (1);
+    }
+    quants = difer.length ();
+    if (quants > 254) {
+        std::cerr << " ** Erro: existem muitos caracteres diferentes no arquivo. **" << std::endl;
+        return (1);
+    }
+    std::cout << "Etapa 2: contando caracteres presentes no arquivo para calcular probabilidades..." << std::endl;
+    NEW_ARRAY_OF_OBJECTS (probabs, int, quants);
+    for (i=0; i<quants;i++)
+        probabs[i] = 0;
+    entrada.clear();
+    entrada.seekg (0);
+    tam_arq = 0;
+    while (1) {
+        leit = entrada.get();
+        if (entrada.eof()) break;
+        tam_arq++;
+        if (tam_arq < 0) {
+            tam_arq--;
+            break;
+        }
+        if (leit != 0)
+            probabs[difer.find(leit)]++;
+    }
+    std::cout << "Etapa 3: compactando o arquivo de entrada..." << std::endl;
+    std::fstream saida (argv[2], std::ios_base::out | std::ios_base::binary);
+    if (saida.fail()) {
+        std::cerr << " ** Erro: nao pude abrir o arquivo de saida! **" << std::endl;
+        return (1);
+    }
+    THuff algoritmo;
+    for (i=0;i<quants;i++) {
+        algoritmo.adicionaCaractere (difer[i], probabs[i]);
+    }
+    saida << char(quants & 0xff);
+    for (i=0; i<quants; i++) {
+        saida << difer[i];
+        ESCREVEINT (saida, probabs[i]);
+    }
+    entrada.clear();
+    entrada.seekg (0);
+    while (1) {
+        leit = entrada.get();
+        if (entrada.eof()) break;
+        difer = algoritmo.obtemCodificacao (leit);
+        l = difer.length();
+        for (i=0; i<l; i++) {
+            dado <<= 1;
+            if (difer[i] == '1')
+                dado++;
+            num_desloca++;
+            if (num_desloca == 8) {
+                saida.put(dado);
+                num_desloca = 0;
+                dado = 0;
+            }
+        }
+    }
+    while (num_desloca != 8) {
+        dado <<= 1;
+        num_desloca++;
+    }
+    saida.put(dado);
+    entrada.close();
+    saida.close();
+    std::cout << "Concluido." << std::endl;
+    DEL_ARRAY_OF_OBJECTS (probabs);
+    return (0);
+}
+#include "common.h"
+
+#define TESTE_EOF { if (entrada.eof()) { std::cerr << "Erro: EOF inesperado!" << std::endl; return (1); } }
+#define NAORECONHECIDO { std::cerr << "Erro: formato de arquivo desconhecido!" << std::endl; return (1); }
+#define LEINT(stream,dado) { \
+    dado = (unsigned int) (stream.get() & 0xff); \
+    TESTE_EOF; \
+    dado = (dado << 8) | (unsigned int) (stream.get() & 0xff); \
+    TESTE_EOF; \
+    dado = (dado << 8) | (unsigned int) (stream.get() & 0xff); \
+    TESTE_EOF; \
+    dado = (dado << 8) | (unsigned int) (stream.get() & 0xff); \
+    TESTE_EOF; }
+
+int main (int argc, char **argv) {
+    int num_desloca, tam_arq, probabs, i, l, quants;
+    char dado, leit, mops;
+    std::string difer;
+    dado = 0;
+    if (argc < 3) {
+        std::cerr << "Uso: " << argv[0] << " <infile> <outfile>" << std::endl;
+        return (1);
+    }
+    std::fstream entrada (argv[1], std::ios_base::in | std::ios_base::binary);
+    if (entrada.fail()) {
+        std::cerr << "Nao pude abrir o arquivo de entrada!" << std::endl;
+        return (1);
+    }
+    std::cout << "Etapa 1: processando o cabecalho do arquivo..." << std::endl;
+    THuff algoritmo;
+    quants = (unsigned int) (entrada.get());
+    TESTE_EOF;
+    tam_arq = 0;
+    for (i=0; i<quants; i++) {
+        leit = entrada.get();
+        TESTE_EOF;
+        LEINT (entrada, probabs);
+        if (probabs <= 0) NAORECONHECIDO;
+        tam_arq += probabs;
+        if (tam_arq <= 0) NAORECONHECIDO;
+        algoritmo.adicionaCaractere (leit, probabs);
+    }
+    std::cout << "Etapa 2: descompactando o arquivo..." << std::endl;
+    std::fstream saida (argv[2], std::ios_base::out | std::ios_base::binary);
+    if (saida.fail()) {
+        std::cerr << " ** Erro: nao pude abrir o arquivo de saida! **" << std::endl;
+        return (1);
+    }
+    difer = "";
+    while (tam_arq > 0) {
+        dado = entrada.get();
+        TESTE_EOF;
+        for (num_desloca=7; num_desloca>=0; num_desloca--)
+            if (dado & (1 << num_desloca))
+                difer += "1";
+            else
+                difer += "0";
+        l = difer.length ();
+        if (l > 4096) NAORECONHECIDO;
+        for (i=1; i<l && tam_arq > 0; i++) {
+            mops = algoritmo.obtemCaractere (difer.substr (0, i));
+            if (mops != 0) {
+                saida << mops;
+                tam_arq--;
+                difer = difer.substr (i, l - i);
+                l -= i;
+                i = 0;
+            }
+        }
+    }
+    entrada.close();
+    saida.close();
+    std::cout << "Concluido." << std::endl;
+    return (0);
+}
+#include "common.h"
+
+TCell::TCell (TCell *parent) {
+    this->_id = 51;
+    this->_weight = 100;
+    this->_character = 0;
+    this->_son0 = NULL;
+    this->_son1 = NULL;
+    this->_hasSons = false;
+    this->_parent = parent;
+}
+
+TCell::~TCell () {
+    this->killSons ();
+    if (this->_parent != NULL) {
+        if (this->_parent->_son0 == this) {
+            if (this->_parent->_son1 != NULL) {
+                this->_parent->_son1->_parent = NULL;
+                DEL_OBJECT (this->_parent->_son1);
+            }
+            this->_parent->_son0 = NULL;
+        } else {
+            if (this->_parent->_son0 != NULL) {
+                this->_parent->_son0->_parent = NULL;
+                DEL_OBJECT (this->_parent->_son0);
+            }
+            this->_parent->_son1 = NULL;
+        }
+    }
+}
+
+int TCell::id (void) {
+    return (this->_id);
+}
+
+void TCell::setId (int newId) {
+    this->_id = newId;
+}
+
+char TCell::character (void) {
+    return (this->_character);
+}
+
+void TCell::setCharacter (char newCharacter) {
+    this->_character = newCharacter;
+}
+
+int TCell::weight (void) {
+    return (this->_weight);
+}
+
+void TCell::setWeight (int newWeight) {
+    this->_weight = newWeight;
+}
+
+int TCell::distanceToRoot (void) {
+    if (this->_parent == NULL)
+        return (0);
+    return (1 + this->_parent->distanceToRoot());
+}
+
+int TCell::maxDistanceToSons (void) {
+    int s0, s1;
+    if (this->hasSons ()) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        s0 = 1 + this->_son0->maxDistanceToSons();
+        s1 = 1 + this->_son1->maxDistanceToSons();
+        if (s0 > s1)
+            return (s0);
+        else
+            return (s1);
+    } else {
+        assert (this->_son0 == NULL);
+        assert (this->_son1 == NULL);
+        return (0);
+    }
+}
+
+bool TCell::isRoot (void) {
+    return (this->_parent == NULL);
+}
+
+bool TCell::hasSons (void) {
+    return (this->_hasSons);
+}
+
+void TCell::killSons (void) {
+    if (this->_hasSons) {
+        if (this->_son0 != NULL) DEL_OBJECT (this->_son0);
+        if (this->_son1 != NULL) DEL_OBJECT (this->_son1);
+        this->_hasSons = false;
+    }
+}
+
+void TCell::makeSons (void) {
+    if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        return;
+    }
+    NEW_OBJECT(this->_son0, TCell(this));
+    NEW_OBJECT(this->_son1, TCell(this));
+    this->_hasSons = true;
+}
+
+TCell *TCell::son0 (void) {
+    return (this->_son0);
+}
+
+TCell *TCell::son1 (void) {
+    return (this->_son1);
+}
+
+TCell *TCell::son (int whatSon) {
+    if (whatSon % 2)
+        return (this->_son1);
+    else
+        return (this->_son0);
+}
+
+TCell *TCell::parent (void) {
+    return (this->_parent);
+}
+
+TCell *TCell::root (void) {
+    TCell *cell = this;
+    while (cell->_parent != NULL)
+        cell = cell->_parent;
+    return (cell);
+}
+
+TCell *TCell::findSonByWeight (int theWeight) {
+    if (this->_weight == theWeight)
+        return (this);
+    else if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        TCell *celula = this->_son0->findSonByWeight (theWeight);
+        if (celula != NULL)
+            return (celula);
+        else
+            return (this->_son1->findSonByWeight (theWeight));
+    } else {
+        assert (this->_son0 == NULL);
+        assert (this->_son1 == NULL);
+        return (NULL);
+    }
+}
+
+TCell *TCell::findSonById (int theId) {
+    if (this->_id == theId)
+        return (this);
+    else if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        TCell *celula = this->_son0->findSonById (theId);
+        if (celula != NULL)
+            return (celula);
+        else
+            return (this->_son1->findSonById (theId));
+    } else {
+        assert (this->_son0 == NULL);
+        assert (this->_son1 == NULL);
+        return (NULL);
+    }
+}
+
+TCell *TCell::findSonByCharacter (char theCharacter) {
+    if (this->_character == theCharacter)
+        return (this);
+    else if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        TCell *celula = this->_son0->findSonByCharacter (theCharacter);
+        if (celula != NULL)
+            return (celula);
+        else
+            return (this->_son1->findSonByCharacter (theCharacter));
+    } else {
+        assert (this->_son0 == NULL);
+        assert (this->_son1 == NULL);
+        return (NULL);
+    }
+}
+
+TCell *TCell::findSonByPath (std::string thePath) {
+    if (thePath.length() == 0)
+        return (this);
+    std::string proximo (thePath.c_str() + 1);
+    if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        if (thePath[0] == '0')
+            return (this->_son0->findSonByPath (proximo));
+        if (thePath[0] == '1')
+            return (this->_son1->findSonByPath (proximo));
+    } else {
+        assert (this->_son0 == NULL);
+        assert (this->_son1 == NULL);
+    }
+    if (thePath[0] == ' ')
+        return (this->findSonByPath (proximo));
+    if (thePath[0] == '*')
+        if (this->_parent != NULL)
+            return (this->_parent->findSonByPath (proximo));
+        else
+            return (this->findSonByPath (proximo));
+    if (thePath[0] == '#')
+        return (this->root()->findSonByPath (proximo));
+    return (NULL);
+}
+
+std::string TCell::pathFromRootToMe (void) {
+    if (this->_parent == NULL)
+        return (std::string (""));
+    else if (this->_parent->_son0 == this)
+        return (this->_parent->pathFromRootToMe() + "0");
+    else
+        return (this->_parent->pathFromRootToMe() + "1");
+}
+
+std::string TCell::pathToSon (TCell &theCellSon) {
+    return (this->pathToSon (&theCellSon));
+}
+
+std::string TCell::pathToSon (TCell *theCellSon) {
+    if (theCellSon == NULL)
+        return (std::string(""));
+    if (theCellSon == this)
+        return (std::string(" "));
+    else if (this->_hasSons) {
+        assert (this->_son0 != NULL);
+        assert (this->_son1 != NULL);
+        std::string pp = this->_son0->pathToSon (theCellSon);
+        if (pp.length() != 0)
+            return (std::string("0") + pp);
+        pp = this->_son1->pathToSon (theCellSon);
+        if (pp.length() != 0)
+            return (std::string("1") + pp);
+    }
+    return (std::string(""));
+}
+
+bool TCell::isSonOf (TCell &theCellParent) {
+    return (this->isSonOf (&theCellParent));
+}
+
+bool TCell::isSonOf (TCell *theCellParent) {
+    if (theCellParent == this)
+        return (false);
+    return (this->pathToSon (theCellParent) != "");
+}
+
+bool TCell::isParentOf (TCell &theCellSon) {
+    return (this->isParentOf (&theCellSon));
+}
+
+bool TCell::isParentOf (TCell *theCellSon) {
+    if (theCellSon == this || theCellSon == NULL)
+        return (false);
+    return (theCellSon->pathToSon (this) != "");
+}
+
+void TCell::swap (TCell &cell, bool swapParent) {
+    this->swap (&cell, swapParent);
+}
+
+void TCell::swap (TCell *cell, bool swapParent) {
+    if (cell == NULL || cell == this) return;
+    this->swapvar (this->_id, cell->_id);
+    this->swapvar (this->_weight, cell->_weight);
+    this->swapvar (this->_character, cell->_character);
+    this->swapvar (this->_son0, cell->_son0);
+    this->swapvar (this->_son1, cell->_son1);
+    this->swapvar (this->_hasSons, cell->_hasSons);
+    if (swapParent)
+        this->swapvar (this->_parent, cell->_parent);
+}
+
+void TCell::copyFrom (TCell &cell, bool assignParentToCopy) {
+    this->copyFrom (&cell, assignParentToCopy);
+}
+
+void TCell::copyFrom (TCell *cell, bool assignParentToCopy) {
+    if (cell == NULL || cell == this) return;
+    this->_id = cell->_id;
+    this->_weight = cell->_weight;
+    this->_character = cell->_character;
+    if (this->_hasSons)
+        this->killSons ();
+    if (cell->_hasSons) {
+        assert (cell->_son0 != NULL);
+        assert (cell->_son1 != NULL);
+        this->makeSons ();
+        this->_son0->copyFrom (cell->_son0, false);
+        this->_son1->copyFrom (cell->_son1, false);
+    } else {
+        assert (cell->_son0 == NULL);
+        assert (cell->_son1 == NULL);
+    }
+    if (assignParentToCopy) {
+        if (this->_parent != NULL) {
+            TCell *outro_antes;
+            if (this->_parent->_son0 == this)
+                outro_antes = this->_parent->_son1;
+            else {
+                assert (this->_parent->_son1 == this);
+                outro_antes = this->_parent->_son0;
+            }
+            this->_parent->_son0 = NULL;
+            this->_parent->_son1 = NULL;
+            this->_parent->_hasSons = false;
+            this->_parent = NULL;
+            outro_antes->_parent = NULL;
+            DEL_OBJECT (outro_antes);
+        }
+        if (cell->_parent != NULL) {
+            TCell *parent_antes = cell->_parent;
+            if (parent_antes->_son0 == cell)
+                parent_antes->_son0 = this;
+            else {
+                assert (parent_antes->_son1 == cell);
+                parent_antes->_son1 = this;
+            }
+            this->_parent = parent_antes;
+            cell->_parent = NULL;
+        }
+    }
+}
+
+void TCell::copyTo (TCell &cell, bool assignParentToCopy) {
+    cell.copyFrom (this, assignParentToCopy);
+}
+
+void TCell::copyTo (TCell *cell, bool assignParentToCopy) {
+    if (cell != NULL)
+        cell->copyFrom (this, assignParentToCopy);
+}
+#include "common.h"
+
+int main (void) {
+    THuff h;
+    int i, tam, prob, j, soma;
+    char ch;
+    char *vetchar;
+    double soma2;
+    std::string s;
+    std::cout << "Quantos caracteres? ";
+    std::cin >> tam;
+    if (tam <= 0)
+        return (1);
+    NEW_ARRAY_OF_OBJECTS(vetchar, char, tam);
+    soma = 0;
+    for (i=0; i<tam; i++) {
+        std::cout << "Digite o caractere: ";
+        std::cin >> ch;
+        if (ch == 0) {
+            i--;
+            continue;
+        }
+        for (j=0; j<i; j++)
+            if (vetchar[j] == ch)
+                break;
+        do {
+            std::cout << "Digite a probabilidade do caractere '" << ch << "' aparecer (numero inteiro): ";
+            std::cin >> prob;
+        } while (prob <= 0);
+        soma += prob;
+        vetchar[i] = ch;
+        h.adicionaCaractere (ch, prob);
+        if (i != j)
+            i--;
+    }
+    soma2 = 0;
+    std::cout << std::endl << "Codificacao resultante:" << std::endl;
+    for (i=0; i<tam; i++) {
+        s = h.obtemCodificacao (vetchar[i]);
+        std::cout << "    " << vetchar[i] << " = " << s << std::endl;
+        soma2 += double (h.obtemPrioridade(vetchar[i]) * s.length()) / soma;
+    }
+    std::cout << "Comprimento medio da codificacao resultante: " << soma2 << std::endl;
+    DEL_ARRAY_OF_OBJECTS (vetchar);
+    return (0);
+}
+#include "common.h"
+
+THuff::THuff () {
+    NEW_ARRAY_OF_OBJECTS (this->vetPrioridades, int, 1);
+    NEW_ARRAY_OF_OBJECTS (this->vetCaracteres, char, 1);
+    NEW_ARRAY_OF_OBJECTS (this->vetCodificacoes, std::string, 1);
+    this->recalculaCodificacao = false;
+    this->tamvetores = 0;
+}
+
+THuff::~THuff () {
+    DEL_ARRAY_OF_OBJECTS (this->vetPrioridades);
+    DEL_ARRAY_OF_OBJECTS (this->vetCaracteres);
+    DEL_ARRAY_OF_OBJECTS (this->vetCodificacoes);
+}
+
+void THuff::redimensionaVetores (int novotamanho) {
+    if (novotamanho < 0) return;
+    if (this->tamvetores < novotamanho) {
+        char *vtchar;
+        int *vtint;
+        std::string *vtstr;
+        int i;
+        NEW_ARRAY_OF_OBJECTS (vtint, int, novotamanho);
+        NEW_ARRAY_OF_OBJECTS (vtchar, char, novotamanho);
+        NEW_ARRAY_OF_OBJECTS (vtstr, std::string, novotamanho);
+        for (i=0; i<this->tamvetores; i++) {
+            vtint[i] = this->vetPrioridades[i];
+            vtchar[i] = this->vetCaracteres[i];
+            vtstr[i] = this->vetCodificacoes[i];
+        }
+        DEL_ARRAY_OF_OBJECTS (this->vetCaracteres);
+        DEL_ARRAY_OF_OBJECTS (this->vetPrioridades);
+        DEL_ARRAY_OF_OBJECTS (this->vetCodificacoes);
+        this->vetPrioridades = vtint;
+        this->vetCaracteres = vtchar;
+        this->vetCodificacoes = vtstr;
+    }
+    this->tamvetores = novotamanho;
+}
+
+void THuff::calculaCodificacao (void) {
+    int i, p;
+    TCell *arvoreHuff, tmp0, tmp1, *tmp;
+    if (this->tamvetores == 0) return;
+    NEW_ARRAY_OF_OBJECTS (arvoreHuff, TCell, this->tamvetores);
+    for (i=0; i<this->tamvetores; i++) {
+        arvoreHuff[i].setCharacter (this->vetCaracteres[i]);
+        arvoreHuff[i].setWeight (this->vetPrioridades[i]);
+    }
+    p = 0;
+    while (true) {
+        sortCellInterval (arvoreHuff, p, this->tamvetores);
+        if (++p == this->tamvetores) break;
+        tmp0.copyFrom (arvoreHuff[p-1]);
+        tmp1.copyFrom (arvoreHuff[p]);
+        arvoreHuff[p].makeSons();
+        arvoreHuff[p].son0()->copyFrom (tmp0);
+        arvoreHuff[p].son1()->copyFrom (tmp1);
+        arvoreHuff[p].setWeight (tmp0.weight() + tmp1.weight());
+        arvoreHuff[p].setCharacter (0);
+    }
+    for (i=0; i<this->tamvetores; i++) {
+        tmp = arvoreHuff[p-1].findSonByCharacter (this->vetCaracteres[i]);
+        assert (tmp != NULL);
+        this->vetCodificacoes[i] = arvoreHuff[p-1].pathToSon (tmp);
+        assert (this->vetCodificacoes[i].length() > 1);
+        this->vetCodificacoes[i].resize (this->vetCodificacoes[i].length() - 1);
+    }
+    DEL_ARRAY_OF_OBJECTS (arvoreHuff);
+    this->recalculaCodificacao = false;
+}
+
+void THuff::sortCellInterval (TCell *vetCell, int beginCell, int endCell) {
+    int i;
+    bool troca;
+    do {
+        troca = false;
+        for (i=beginCell+1; i<endCell; i++)
+            if (vetCell[i-1].weight() > vetCell[i].weight()) {
+                troca = true;
+                vetCell[i-1].swap (vetCell[i]);
+            }
+    } while (troca);
+}
+
+void THuff::adicionaCaractere (char ch, int prioridade) {
+    int i;
+    if (ch == 0) return;
+    for (i=0; i<this->tamvetores; i++) {
+        if (this->vetCaracteres[i] == ch) {
+            if (this->vetPrioridades[i] != prioridade) {
+                this->recalculaCodificacao = true;
+                this->vetPrioridades[i] = prioridade;
+            }
+            return;
+        }
+    }
+    i = this->tamvetores;
+    this->redimensionaVetores (i+1);
+    this->vetCaracteres[i] = ch;
+    this->vetPrioridades[i] = prioridade;
+    this->recalculaCodificacao = true;
+}
+
+std::string THuff::obtemCodificacao (char ch) {
+    int i;
+    if (this->recalculaCodificacao)
+        this->calculaCodificacao();
+    for (i=0; i<this->tamvetores; i++)
+        if (this->vetCaracteres[i] == ch)
+            return (this->vetCodificacoes[i]);
+    return (std::string (""));
+}
+
+int THuff::obtemPrioridade (char ch) {
+    int i;
+    for (i=0; i<this->tamvetores; i++)
+        if (this->vetCaracteres[i] == ch)
+            return (this->vetPrioridades[i]);
+    return (-1);
+}
+
+char THuff::obtemCaractere (std::string cod) {
+    int i;
+    if (this->recalculaCodificacao)
+        this->calculaCodificacao();
+    for (i=0; i<this->tamvetores; i++)
+        if (this->vetCodificacoes[i] == cod)
+            return (this->vetCaracteres[i]);
+    return (0);
+}
+
+void THuff::removeCaractere (char ch) {
+    int i;
+    for (i=0; i<this->tamvetores; i++)
+        if (this->vetCaracteres[i] == ch) {
+            this->recalculaCodificacao = true;
+            if (i+1 < this->tamvetores) {
+                this->vetPrioridades[i] = this->vetPrioridades[this->tamvetores-1];
+                this->vetCaracteres[i] = this->vetCaracteres[this->tamvetores-1];
+                this->vetCodificacoes[i] = this->vetCodificacoes[this->tamvetores-1];
+            }
+            this->redimensionaVetores (this->tamvetores - 1);
+            break;
+        }
+}
+#ifndef COMMON_H
+#define COMMON_H
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cassert>
+
+#define NEW_OBJECT(target,type) { do { \
+                                target = new type; \
+                                } while (target == NULL); }
+
+#define DEL_OBJECT(target) { delete(target); \
+                             target = NULL; }
+
+#define DEL_OBJECT_NO_ASSIGN_NULL(target) delete (target);
+
+#define NEW_ARRAY_OF_OBJECTS(target,type,size) { do { \
+                                target = new type[size]; \
+                                } while (target == NULL); }
+
+#define DEL_ARRAY_OF_OBJECTS(target) { delete [] (target); \
+                             target = NULL; }
+
+#define DEL_ARRAY_OF_OBJECTS_NO_ASSIGN_NULL(target) delete [] (target);
+
+#include "tcell.h"
+#include "thuff.h"
+
+#endif // COMMON_H
+class TCell {
+    private:
+        int _id;
+        int _weight;
+        char _character;
+        TCell *_parent;
+        TCell *_son0;
+        TCell *_son1;
+        bool _hasSons;
+        template <typename SWPTYPE>
+            inline void swapvar (SWPTYPE &v1, SWPTYPE &v2) { SWPTYPE aux; aux=v1; v1=v2; v2=aux; }
+    public:
+        TCell (TCell * = NULL);
+        ~TCell ();
+        int id (void);
+        void setId (int);
+        char character (void);
+        void setCharacter (char);
+        int weight ();
+        void setWeight (int);
+        int distanceToRoot (void);
+        int maxDistanceToSons (void);
+        bool isRoot (void);
+        bool hasSons (void);
+        void killSons (void);
+        void makeSons (void);
+        TCell *son0 (void);
+        TCell *son1 (void);
+        TCell *son (int);
+        TCell *parent (void);
+        TCell *root (void);
+        TCell *findSonByWeight (int);
+        TCell *findSonById (int);
+        TCell *findSonByCharacter (char);
+        TCell *findSonByPath (std::string);
+        std::string pathFromRootToMe (void);
+        std::string pathToSon (TCell &);
+        std::string pathToSon (TCell *);
+        bool isSonOf (TCell &);
+        bool isSonOf (TCell *);
+        bool isParentOf (TCell &);
+        bool isParentOf (TCell *);
+        void swap (TCell &, bool = false);
+        void swap (TCell *, bool = false);
+        void copyFrom (TCell &, bool = false);
+        void copyFrom (TCell *, bool = false);
+        void copyTo (TCell &, bool = false);
+        void copyTo (TCell *, bool = false);
+};
+class THuff {
+    private:
+        int *vetPrioridades;
+        char *vetCaracteres;
+        std::string *vetCodificacoes;
+        int tamvetores;
+        bool recalculaCodificacao;
+        void redimensionaVetores (int);
+        void calculaCodificacao (void);
+        void sortCellInterval (TCell *, int, int);
+    public:
+        void adicionaCaractere (char, int);
+        std::string obtemCodificacao (char);
+        int obtemPrioridade (char);
+        char obtemCaractere (std::string);
+        void removeCaractere (char);
+        THuff ();
+        ~THuff ();
+};

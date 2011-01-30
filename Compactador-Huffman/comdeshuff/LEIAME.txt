@@ -1,0 +1,37 @@
+Aqui estão os programas capazes de compactar e descompactar arquivos usando o algoritmo de Huffman.
+
+Arquivos presentes:
+    # arquivo_compactado.txt -> Versão compactada do arquivo 'arquivo_descompactado.txt'.
+    # arquivo_descompactado.txt -> Arquivo simples com alguns caracteres. Serve para experimentar os programas 'compacta.exe' e 'descompacta.exe'.
+    # common.h -> Um arquivo que é incluido por todos os fontes do projeto. Ele inclui todos os cabeçalhos do projeto, bem como cabeçalhos do sistema. Algumas macros utilizadas pelos fontes estão declaradas nesse arquivo.
+    # compacta.cpp -> Código-fonte do programa 'compacta.exe'
+    # descompacta.cpp -> Código-fonte do programa 'descompacta.exe'
+    # LEIAME.txt -> É o arquivo que você está lendo agora...
+    # Makefile -> Contém as regras de compilação do projeto.
+    # tcell.h e tcell.cpp -> Juntos, definem a classe 'TCell', que é a base para montar o algoritmo de Huffman. 'TCell' é uma abstração de uma árvore binária.
+    # test.cpp -> Código-fonte do programa 'teste.exe'
+    # thuff.h e thuff.cpp -> Juntos, definem a classe 'THuff', que é responsável por gerar a codificação Huffmann.
+
+Arquivos executáveis gerados após a compilação:
+    # compacta.exe -> Programa que faz a compactação.
+        Argumentos na linha de comando: compacta.exe <infile> <outfile>
+        Lê o arquivo <infile>, compacta e gera a versão compactada <outfile>.
+    # descompacta.exe -> Programa que faz a compactação.
+        Argumentos na linha de comando: descompacta.exe <infile> <outfile>
+        Lê o arquivo <infile>, descompacta e gera a versão descompactada <outfile>.
+    # test.exe -> Simples programa que testa a classe THuff (necessário durante o desenvolvimento... hehehe). Os argumentos são passados via leitura do teclado (ao contrário de 'compacta.exe' e 'descompacta.exe'). Ele devolve a codificação Huffman para o conjunto de caractere/probabilidade que é passado via teclado.
+
+Como compilar:
+    # No Linux, se as ferramentas de desenvolvimento estiverem instaladas, basta digitar:
+        $ make
+    # No Windows, se o MinGW estiver corretamente instalado, basta digitar:
+        > make
+    # No Windows, se o Turbo C++ estiver instalado:
+        Instale o MinGW [http://prdownloads.sourceforge.net/mingw/MinGW-4.1.1.exe?download] e faça o passo 2.
+        Opcionalmente, desinstale o Turbo C (por que essa coisa antiquada ainda existe???) e leia textos sobre Win32API, além do manual do MinGW.
+    # Em algum outro caso:
+        É mais difícil...
+        1. Gerar os arquivos-objetos dos fontes 'compacta.cpp', 'descompacta.cpp', 'tcell.cpp', 'test.cpp' e 'thuff.cpp'
+        2. Gerar o arquivo 'compacta.exe' a partir dos objetos de 'compacta.cpp', 'tcell.cpp' e 'thuff.cpp'
+        3. Gerar o arquivo 'descompacta.exe' a partir dos objetos de 'descompacta.cpp', 'tcell.cpp' e 'thuff.cpp'
+        4. Gerar o arquivo 'test.exe' a partir dos objetos de 'test.cpp', 'tcell.cpp' e 'thuff.cpp'
