@@ -21,8 +21,8 @@ comando::~comando () {
     APAGA_OBJETO (this->t);
 }
 
-void comando::f__eu (char *s) {
-    DEBUGA("void comando::f__eu (char *);");
+void comando::f__eu (const char *s) {
+    DEBUGA("void comando::f__eu (const char *);");
     this->f__eu (QString (s));
 }
 
@@ -45,8 +45,8 @@ void comando::f__eu (void) {
     this->_Estado = QueEstado::Pronto;
 }
 
-void comando::AdicionaParametros (char *str) {
-    DEBUGA("void comando::AdicionaParametros (char *);");
+void comando::AdicionaParametros (const char *str) {
+    DEBUGA("void comando::AdicionaParametros (const char *);");
     this->AdicionaParametros (QString (str));
 }
 
@@ -69,8 +69,8 @@ void comando::AdicionaParametros (QString str) {
         }
 }
 
-void comando::EnviaDado (char *msg) {
-    DEBUGA("void comando::EnviaDado (char *);");
+void comando::EnviaDado (const char *msg) {
+    DEBUGA("void comando::EnviaDado (const char *);");
     int i = 0;
     while (msg[i]) i++;
     this->writeBlock (msg, i);
@@ -80,7 +80,7 @@ void comando::EnviaDado (char *msg) {
 
 void comando::EnviaDado (QString msg) {
     DEBUGA("void comando::EnviaDado (QString);");
-    this->EnviaDado ((char*) msg.ascii());
+    this->EnviaDado ((const char*) msg.ascii());
 }
 
 QueEstado::__QueEstado comando::Estado (void) {
@@ -88,8 +88,8 @@ QueEstado::__QueEstado comando::Estado (void) {
     return (this->_Estado);
 }
 
-bool comando::Envia (char *cmd) {
-    DEBUGA("bool comando::Envia (char *);");
+bool comando::Envia (const char *cmd) {
+    DEBUGA("bool comando::Envia (const char *);");
     return (this->Envia (QString (cmd)));
 }
 

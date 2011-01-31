@@ -24,9 +24,9 @@ class comando : public QSocket {
         QueEstado::__QueEstado _Estado;
         QTimer *t;
         void f__eu (void);
-        void f__eu (char *);
+        void f__eu (const char *);
         void f__eu (QString);
-        void EnviaDado (char *);
+        void EnviaDado (const char *);
         void EnviaDado (QString);
         void funcaosemnome (void);
         bool _flag;
@@ -34,9 +34,9 @@ class comando : public QSocket {
         comando ();
         ~comando ();
         void AdicionaParametros (QString);
-        void AdicionaParametros (char *);
+        void AdicionaParametros (const char *);
         bool Envia (QString);
-        bool Envia (char *);
+        bool Envia (const char *);
         QueEstado::__QueEstado Estado (void);
         void connectToHost (QString, Q_UINT16);
     signals:
